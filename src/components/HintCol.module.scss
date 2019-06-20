@@ -1,0 +1,10 @@
+@import '../variables.scss';
+
+.HintCol {
+  display: flex;
+  flex-direction: column;
+
+  &:nth-of-type(5n) {
+    margin-right: $marginLg;
+  }
+}

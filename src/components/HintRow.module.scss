@@ -1,0 +1,10 @@
+@import '../variables.scss';
+
+.HintRow {
+  display: flex;
+  flex-direction: row;
+
+  &:nth-of-type(5n) {
+    margin-bottom: $marginLg;
+  }
+}

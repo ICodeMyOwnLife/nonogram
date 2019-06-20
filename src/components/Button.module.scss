@@ -1,0 +1,28 @@
+@import '../variables.scss';
+
+.Button {
+  padding: 6px 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  background-color: $colorPrimary;
+  border: 1px solid #fff;
+  cursor: pointer;
+  transition: 200ms all ease;
+
+  &:hover {
+    color: $colorPrimary;
+    background-color: $colorDark;
+  }
+
+  &:active {
+    color: $colorPrimary;
+    border-color: $colorPrimary;
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}

@@ -1,0 +1,39 @@
+@import 'variables.scss';
+
+.Login {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.Logo {
+  margin-top: 60px;
+  height: 120px;
+}
+
+.LogoImage {
+  max-height: 100%;
+}
+
+.Title {
+  margin-top: 32px;
+  font-size: 24px;
+  color: white;
+}
+
+.LoginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+
+  input {
+    width: 280px;
+    padding: 6px 8px;
+    font-size: 16px;
+  }
+}
