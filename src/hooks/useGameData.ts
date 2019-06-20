@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import moment from 'moment';
 import useStore from 'hooks/useStore';
 import { getLevelAction } from 'actions/gameActions';
@@ -7,9 +7,7 @@ import { RootState } from 'store';
 import { ThunkDispatch } from 'redux-thunk';
 
 export default function useGameData() {
-  const [startTime, setStartTime] = useState<moment.Moment | undefined>(
-    undefined,
-  );
+  const startTimeRef = useRef<moment.Moment | undefined>(undefined);
   const [valueRows, setValueRows] = useState<number[][] | undefined>(undefined);
   const [resultRows, setResultRows] = useState<CellStatus[][] | undefined>(
     undefined,
@@ -52,8 +50,7 @@ export default function useGameData() {
           value === 1 ? 'Selected' : ('Unselected' as CellStatus),
         ),
       );
-      console.log(moment());
-      setStartTime(moment());
+      startTimeRef.current = moment();
       setValueRows(data);
       setResultRows(results);
       setStatusRows(statuses);
@@ -111,7 +108,7 @@ export default function useGameData() {
   }, [checkSuccess]);
 
   return {
-    startTime,
+    startTimeRef,
     valueRows,
     resultRows,
     statusRows,

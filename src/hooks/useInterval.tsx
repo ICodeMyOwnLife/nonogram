@@ -9,7 +9,6 @@ export default function useInterval(callback: VoidFunction, period: number) {
   }, [period]);
 
   useEffect(() => {
-    debugger;
     callbackRef.current = callback;
-  }, [callback]);
+  });
 }

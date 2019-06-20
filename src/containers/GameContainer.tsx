@@ -17,7 +17,7 @@ momentDurationFormatSetup(moment as any);
 
 const GameContainer: FC = () => {
   const {
-    startTime,
+    startTimeRef,
     valueRows,
     resultRows,
     statusRows,
@@ -56,9 +56,9 @@ const GameContainer: FC = () => {
   const rows = cheatMode && resultRows ? resultRows : statusRows;
 
   const tick = useCallback(() => {
-    debugger;
-    setDuration(moment.duration(moment().diff(startTime)));
-  }, [startTime]);
+    const diff = startTimeRef.current ? moment().diff(startTimeRef.current) : 0;
+    setDuration(moment.duration(diff));
+  }, []);
   useInterval(tick, 1000);
 
   const showDescription = succeeded || gameOver;
@@ -89,7 +89,7 @@ const GameContainer: FC = () => {
               [classes.transparent]: succeeded,
             })}
           >
-            {duration.format()}
+            {duration.format('hh:mm:ss', 0, { trim: false })}
           </h1>
 
           <h2
