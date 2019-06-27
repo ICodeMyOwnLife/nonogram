@@ -69,6 +69,14 @@ const Login: FC<LoginProps> = ({ redirect }) => {
         <img className={classes.LogoImage} src={logoSrc} alt="logo  " />
       </div>
       <h1 className={classes.Title}>Have fun with our puzzle challenges!!!</h1>
+      <a
+        className={classes.HowToPlay}
+        href="https://www.nonograms.org/instructions"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        How to play
+      </a>
       <div className={classes.LoginForm}>
         <div>
           <Button kind="primary" onClick={loginWithSms}>

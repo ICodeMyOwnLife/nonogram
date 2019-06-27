@@ -66,7 +66,7 @@ const GameContainer: FC = () => {
 
   const showDescription = succeeded || gameOver;
   const descriptionMessage = gameOver
-    ? 'CONGRATULATIONS!\nYou won the game'
+    ? 'CONGRATULATIONS!\nYou finished all levels.\nPlease head to Grab booth for a champion gift.'
     : description;
   const buttonLabel = gameOver ? undefined : 'Go to next level';
 

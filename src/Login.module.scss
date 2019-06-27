@@ -6,7 +6,6 @@
   justify-content: stretch;
   align-items: center;
   width: 100vw;
-  // height: 100vh;
 }
 
 .Logo {
@@ -23,6 +22,24 @@
   font-size: 24px;
   text-align: center;
   color: white;
+}
+
+.HowToPlay {
+  display: block;
+  margin-top: 32px;
+  font-size: 20px;
+  text-align: center;
+  color: $colorLight;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    color: $colorPrimary;
+  }
+  
+  &:active {
+    color: $colorLight;
+  }
 }
 
 .LoginForm {

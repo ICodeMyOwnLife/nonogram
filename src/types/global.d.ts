@@ -13,6 +13,9 @@ namespace AccountKit {
     appId: string;
     state: string;
     version: string;
+    display?: 'popup' | 'modal';
+    debug?: boolean;
+    fbAppEventsEnabled?: boolean;
   }
 
   type LoginCallback = (response: LoginResponse) => void;

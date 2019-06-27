@@ -29,6 +29,7 @@ export function initAccountKit() {
     appId: FACEBOOK_APP_ID,
     state: CSRF,
     version: ACCOUNT_KIT_VERSION,
+    display: 'modal',
   });
 }
 

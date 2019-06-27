@@ -13,19 +13,10 @@ export class Level extends Parse.Object {
   }
 }
 
-async function loadLevel(user: User) {
-  const query = new Parse.Query(Level);
-  query.equalTo('user', user);
-  query.descending('createdAt');
-  const level = await query.first();
-  return level;
-}
-
-async function saveLevel(user: User, game: Game) {
-  const level = new Level();
-  level.set('user', user);
-  level.set('game', game);
-  await level.save();
+export class Finish extends Parse.Object {
+  constructor() {
+    super('Finish');
+  }
 }
 
 export async function loadGame(levelNumber?: number) {
@@ -54,9 +45,35 @@ export async function loadGame(levelNumber?: number) {
   return game;
 }
 
-export async function loadGameByLevelNumber(levelNumber: number) {
+export async function finishGame() {
+  const user = await Parse.User.currentAsync();
+  if (!user) {
+    throw Error('Cannot find user ');
+  }
+
+  const finish = new Finish();
+  finish.set('user', user);
+  return await finish.save();
+}
+
+async function loadGameByLevelNumber(levelNumber: number) {
   const query = new Parse.Query(Game);
   query.equalTo('level', levelNumber);
   const game = await query.first();
   return game;
+}
+
+async function loadLevel(user: User) {
+  const query = new Parse.Query(Level);
+  query.equalTo('user', user);
+  query.descending('createdAt');
+  const level = await query.first();
+  return level;
+}
+
+async function saveLevel(user: User, game: Game) {
+  const level = new Level();
+  level.set('user', user);
+  level.set('game', game);
+  await level.save();
 }

@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import moment from 'moment';
 import useReduxStore from 'hooks/useStore';
-import { loadGameAction } from 'actions/gameActions';
+import { loadGameAction, finishGameAction } from 'actions/gameActions';
 import { CellStatus, PayloadAction } from 'types/common';
 import { RootState } from 'store';
 import { ThunkDispatch } from 'redux-thunk';
@@ -26,18 +26,20 @@ export default function useGameData() {
   const mapDispatch = useCallback(
     (dispatch: ThunkDispatch<RootState, {}, PayloadAction>) => ({
       loadGame: (level?: number) => dispatch(loadGameAction(level)),
+      finishGame: () => dispatch(finishGameAction()),
     }),
     [],
   );
   const {
     stateObject: { level, loading },
-    dispatchObject: { loadGame },
+    dispatchObject: { loadGame, finishGame },
   } = useReduxStore(mapState, mapDispatch);
 
   const fetch = useCallback(
     async (level?: number) => {
       const game = await loadGame(level);
       if (!game) {
+        await finishGame();
         return setGameOver(true);
       }
       const { gameData, description } = game.attributes;

@@ -1,10 +1,24 @@
 import { Dispatch } from 'redux';
-import { loadGame } from 'services/gameService';
-import { LEVEL_REQUEST, LEVEL_RESPONSE } from 'constants/gameActionTypes';
+import { loadGame, finishGame } from 'services/gameService';
+import {
+  LEVEL_REQUEST,
+  LEVEL_RESPONSE,
+  FINISH_REQUEST,
+  FINISH_RESPONSE,
+} from 'constants/gameActionTypes';
 
-export const loadGameAction = (level?: number) => async (dispatch: Dispatch) => {
+export const loadGameAction = (level?: number) => async (
+  dispatch: Dispatch,
+) => {
   dispatch({ type: LEVEL_REQUEST });
-  const data = await loadGame(level);
-  dispatch({ type: LEVEL_RESPONSE, payload: data });
-  return data;
+  const game = await loadGame(level);
+  dispatch({ type: LEVEL_RESPONSE, payload: game });
+  return game;
+};
+
+export const finishGameAction = () => async (dispatch: Dispatch) => {
+  dispatch({ type: FINISH_REQUEST });
+  const finish = await finishGame();
+  dispatch({ type: FINISH_RESPONSE, payload: finish });
+  return finish;
 };
