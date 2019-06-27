@@ -23,8 +23,8 @@ const gameReducer: Reducer<GameState, PayloadAction<GAME_ACTION_TYPES>> = (
       return {
         ...state,
         loading: false,
-        level: action.payload && action.payload.level,
-        data: action.payload && JSON.parse(action.payload.gameData),
+        level: action.payload && action.payload.attributes['level'],
+        data: action.payload && JSON.parse(action.payload.attributes['gameData']),
       };
 
     default:

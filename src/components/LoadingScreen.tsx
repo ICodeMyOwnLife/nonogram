@@ -5,10 +5,9 @@ import classes from './LoadingScreen.module.scss';
 const LoadingScreen: FC = () => {
   return (
     <div className={classes.LoadingScreen}>
-      <Loading />
+      <Loading show={true} />
     </div>
   );
 };
-
 
 export default memo(LoadingScreen);

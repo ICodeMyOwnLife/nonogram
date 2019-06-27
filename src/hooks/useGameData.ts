@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import moment from 'moment';
-import useStore from 'hooks/useStore';
-import { getLevelAction } from 'actions/gameActions';
+import useReduxStore from 'hooks/useStore';
+import { loadGameAction } from 'actions/gameActions';
 import { CellStatus, PayloadAction } from 'types/common';
 import { RootState } from 'store';
 import { ThunkDispatch } from 'redux-thunk';
@@ -20,27 +20,27 @@ export default function useGameData() {
   const [gameOver, setGameOver] = useState(false);
 
   const mapState = useCallback(
-    ({ game: { level } }: RootState) => ({ level }),
+    ({ game: { level, loading } }: RootState) => ({ level, loading }),
     [],
   );
   const mapDispatch = useCallback(
     (dispatch: ThunkDispatch<RootState, {}, PayloadAction>) => ({
-      getLevel: (level: number) => dispatch(getLevelAction(level)),
+      loadGame: (level?: number) => dispatch(loadGameAction(level)),
     }),
     [],
   );
   const {
-    stateObject: { level },
-    dispatchObject: { getLevel },
-  } = useStore(mapState, mapDispatch);
+    stateObject: { level, loading },
+    dispatchObject: { loadGame },
+  } = useReduxStore(mapState, mapDispatch);
 
   const fetch = useCallback(
-    async (level = 0) => {
-      const result = await getLevel(level);
-      if (!result) {
+    async (level?: number) => {
+      const game = await loadGame(level);
+      if (!game) {
         return setGameOver(true);
       }
-      const { gameData, description } = result;
+      const { gameData, description } = game.attributes;
       const data = JSON.parse(gameData) as number[][];
       const statuses = data.map(row =>
         row.map(() => 'Unselected' as CellStatus),
@@ -56,7 +56,7 @@ export default function useGameData() {
       setStatusRows(statuses);
       setDescription(description);
     },
-    [getLevel],
+    [loadGame],
   );
 
   const updateStatus = useCallback(
@@ -112,8 +112,10 @@ export default function useGameData() {
     valueRows,
     resultRows,
     statusRows,
+    setStatusRows,
     description,
     level,
+    loading,
     fetch,
     updateStatus,
     checkSuccess,

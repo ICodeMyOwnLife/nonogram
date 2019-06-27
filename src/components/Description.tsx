@@ -19,7 +19,7 @@ const Description: FC<DescriptionProps> = ({
       <div className={classes.Content}>
         <h2 className={classes.Title}>{description}</h2>
         {buttonLabel && (
-          <Button className={classes.NextButton} onClick={onOk}>
+          <Button className={classes.NextButton} onClick={onOk} autoFocus>
             {buttonLabel}
           </Button>
         )}

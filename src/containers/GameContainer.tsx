@@ -8,7 +8,8 @@ import HintCols from 'components/HintCols';
 import Loading from 'components/Loading';
 import Description from 'components/Description';
 import useGameData from 'hooks/useGameData';
-import useCheat from 'hooks/useCheat';
+import useCheatMode from 'hooks/useCheatMode';
+import useKeyPress from 'hooks/useKeyPress';
 import classes from './GameContainer.module.scss';
 import { CellInfo, CellStatus } from 'types/common';
 import useInterval from 'hooks/useInterval';
@@ -21,10 +22,12 @@ const GameContainer: FC = () => {
     valueRows,
     resultRows,
     statusRows,
+    setStatusRows,
     description,
     updateStatus,
     succeeded,
     level,
+    loading,
     fetch,
     gameOver,
   } = useGameData();
@@ -45,20 +48,20 @@ const GameContainer: FC = () => {
   );
 
   const handleGetNextLevel = useCallback(() => {
-    fetch(level);
+    fetch(level + 1);
   }, [fetch, level]);
 
   const toggleCheat = useCallback(
     (e: KeyboardEvent) => e.key.toLowerCase() === 'c' && e.shiftKey,
     [],
   );
-  const cheatMode = useCheat(toggleCheat);
+  const cheatMode = useCheatMode(toggleCheat);
   const rows = cheatMode && resultRows ? resultRows : statusRows;
 
   const tick = useCallback(() => {
     const diff = startTimeRef.current ? moment().diff(startTimeRef.current) : 0;
     setDuration(moment.duration(diff));
-  }, []);
+  }, [startTimeRef]);
   useInterval(tick, 1000);
 
   const showDescription = succeeded || gameOver;
@@ -67,12 +70,20 @@ const GameContainer: FC = () => {
     : description;
   const buttonLabel = gameOver ? undefined : 'Go to next level';
 
+  useKeyPress(e => {
+    if (e.key.toLowerCase() === 'p' && e.shiftKey) {
+      setStatusRows(resultRows);
+    }
+  });
+
   return (
     <div
       className={classnames(classes.GameContainer, {
         [classes.hack]: !!cheatMode,
       })}
     >
+      <Loading show={loading} />
+
       <Description
         description={descriptionMessage}
         buttonLabel={buttonLabel}
@@ -80,9 +91,7 @@ const GameContainer: FC = () => {
         isShown={showDescription}
       />
 
-      {!valueRows || !rows ? (
-        <Loading />
-      ) : (
+      {valueRows && rows && (
         <div className={classes.Wrapper}>
           <h1
             className={classnames(classes.Duration, {

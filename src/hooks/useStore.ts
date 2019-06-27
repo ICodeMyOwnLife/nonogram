@@ -4,7 +4,7 @@ import StoreContext from 'StoreContext';
 import { useContext, useEffect, useState, useMemo } from 'react';
 import { PayloadAction } from 'types/common';
 
-export default function useStore<TState, TDispatch>(
+export default function useReduxStore<TState, TDispatch>(
   mapState: (rootState: RootState) => TState,
   mapDispatch: (
     dispatch: ThunkDispatch<RootState, {}, PayloadAction>,
