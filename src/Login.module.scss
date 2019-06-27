@@ -6,7 +6,7 @@
   justify-content: stretch;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  // height: 100vh;
 }
 
 .Logo {
@@ -21,6 +21,7 @@
 .Title {
   margin-top: 32px;
   font-size: 24px;
+  text-align: center;
   color: white;
 }
 
@@ -30,6 +31,7 @@
   justify-content: center;
   align-items: center;
   flex: 1;
+  margin-top: 80px;
 
   input {
     width: 280px;
