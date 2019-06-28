@@ -7,12 +7,14 @@ import HintRows from 'components/HintRows';
 import HintCols from 'components/HintCols';
 import Loading from 'components/Loading';
 import Description from 'components/Description';
+import SocialButtons from 'components/SocialButtons';
 import useGameData from 'hooks/useGameData';
 import useCheatMode from 'hooks/useCheatMode';
 import useKeyPress from 'hooks/useKeyPress';
-import classes from './GameContainer.module.scss';
-import { CellInfo, CellStatus } from 'types/common';
 import useInterval from 'hooks/useInterval';
+import config from 'config';
+import { CellInfo, CellStatus } from 'types/common';
+import classes from './GameContainer.module.scss';
 
 momentDurationFormatSetup(moment as any);
 
@@ -100,7 +102,6 @@ const GameContainer: FC = () => {
           >
             {duration.format('hh:mm:ss', 0, { trim: false })}
           </h1>
-
           <h2
             className={classnames(classes.Level, {
               [classes.transparent]: succeeded,
@@ -108,7 +109,9 @@ const GameContainer: FC = () => {
           >
             Level: {level}
           </h2>
-
+          <div className={classes.SocialButtons}>
+            <SocialButtons href={config.FE_URL} />
+          </div>
           <div className={classes.Main}>
             <div className={classes.Game}>
               <div className={classes.TopBar}>

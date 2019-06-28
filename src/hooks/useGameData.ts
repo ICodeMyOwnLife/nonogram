@@ -58,7 +58,7 @@ export default function useGameData() {
       setStatusRows(statuses);
       setDescription(description);
     },
-    [loadGame],
+    [loadGame, finishGame],
   );
 
   const updateStatus = useCallback(

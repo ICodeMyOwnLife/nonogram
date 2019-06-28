@@ -1,7 +1,7 @@
 import Parse from 'parse';
-import { APP_BASE_URL } from 'constants/url';
+import config from 'config';
 
 Parse.initialize('nonogram');
-Parse.serverURL = APP_BASE_URL;
+Parse.serverURL = config.BE_BASE_URL;
 
 export default Parse;

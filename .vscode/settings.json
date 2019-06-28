@@ -1,3 +1,10 @@
 {
-  "cSpell.words": ["Signup", "appsecret", "csrf", "devtools", "nonogram"]
+  "cSpell.words": [
+    "Signup",
+    "appsecret",
+    "crossorigin",
+    "csrf",
+    "devtools",
+    "nonogram"
+  ]
 }

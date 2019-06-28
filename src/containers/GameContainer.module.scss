@@ -32,6 +32,10 @@
   color: #fff;
 }
 
+.SocialButtons {
+  margin-top: 20px;
+}
+
 .Main {
   display: flex;
   flex-direction: row;
@@ -44,8 +48,7 @@
 }
 
 .Game {
-  margin-top: 24px;
-  padding: 20px 20px 40px 30px;
+  padding: 20px 20px 40px $cellDim/2;
   overflow: auto;
 
   &.hack {
