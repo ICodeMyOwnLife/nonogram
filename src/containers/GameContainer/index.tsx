@@ -8,12 +8,16 @@ import HintCols from 'components/HintCols';
 import Loading from 'components/Loading';
 import Description from 'components/Description';
 import SocialButtons from 'components/SocialButtons';
-import useGameData from 'hooks/useGameData';
-import useCheatMode from 'hooks/useCheatMode';
 import useKeyPress from 'hooks/useKeyPress';
 import useInterval from 'hooks/useInterval';
 import config from 'config';
-import { CellInfo, CellStatus } from 'types/common';
+import {
+  useGameData,
+  useCellClickCallback,
+  useShowResultCheatMode,
+  useGetNextLevelCallback,
+  useUpdateDuration,
+} from './hooks';
 import classes from './GameContainer.module.scss';
 
 momentDurationFormatSetup(moment as any);
@@ -34,38 +38,11 @@ const GameContainer: FC = () => {
     gameOver,
   } = useGameData();
   const [duration, setDuration] = useState<moment.Duration>(moment.duration());
-
-  const handleCellClick = useCallback(
-    async ({ status, rowIndex, colIndex }: CellInfo) => {
-      const nextStatus: CellStatus =
-        status === 'Unselected'
-          ? 'Selected'
-          : status === 'Selected'
-          ? 'Flagged'
-          : 'Unselected';
-
-      updateStatus(rowIndex, colIndex, nextStatus);
-    },
-    [updateStatus],
-  );
-
-  const handleGetNextLevel = useCallback(() => {
-    fetch(level + 1);
-  }, [fetch, level]);
-
-  const toggleCheat = useCallback(
-    (e: KeyboardEvent) => e.key.toLowerCase() === 'c' && e.shiftKey,
-    [],
-  );
-  const cheatMode = useCheatMode(toggleCheat);
-  const rows = cheatMode && resultRows ? resultRows : statusRows;
-
-  const tick = useCallback(() => {
-    const diff = startTimeRef.current ? moment().diff(startTimeRef.current) : 0;
-    setDuration(moment.duration(diff));
-  }, [startTimeRef]);
-  useInterval(tick, 1000);
-
+  const handleCellClick = useCellClickCallback(updateStatus);
+  const getNextLevel = useGetNextLevelCallback(fetch, level);
+  const showResultCheatMode = useShowResultCheatMode();
+  const rows = showResultCheatMode && resultRows ? resultRows : statusRows;
+  useUpdateDuration(startTimeRef, setDuration, 1000);
   const showDescription = succeeded || gameOver;
   const descriptionMessage = gameOver
     ? 'CONGRATULATIONS!\nYou finished all levels.\nPlease head to Grab booth for a champion gift.'
@@ -81,7 +58,7 @@ const GameContainer: FC = () => {
   return (
     <div
       className={classnames(classes.GameContainer, {
-        [classes.hack]: !!cheatMode,
+        [classes.hack]: !!showResultCheatMode,
       })}
     >
       <Loading show={loading} />
@@ -89,7 +66,7 @@ const GameContainer: FC = () => {
       <Description
         description={descriptionMessage}
         buttonLabel={buttonLabel}
-        onOk={handleGetNextLevel}
+        onOk={getNextLevel}
         isShown={showDescription}
       />
 

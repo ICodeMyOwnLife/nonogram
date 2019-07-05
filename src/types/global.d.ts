@@ -26,3 +26,11 @@ namespace AccountKit {
     state: string;
   }
 }
+
+interface VoidFunction<TArgs extends any[] = []> {
+  (...args: TArgs): void;
+}
+
+type TypedFunction<TArgs extends any[] = [], TReturn = void> = (
+  ...args: TArgs
+) => void;

@@ -5,6 +5,13 @@ import { loadGameAction, finishGameAction } from 'actions/gameActions';
 import { CellStatus, PayloadAction } from 'types/common';
 import { RootState } from 'store';
 import { ThunkDispatch } from 'redux-thunk';
+import { TypedUseSelectorHook, useDispatch } from 'react-redux';
+import useShallowEqualSelector from './useShallowEqualSelector';
+
+export const selector = ({ game: { level, loading } }: RootState) => ({
+  level,
+  loading,
+});
 
 export default function useGameData() {
   const startTimeRef = useRef<moment.Moment | undefined>(undefined);
@@ -18,22 +25,8 @@ export default function useGameData() {
   const [description, setDescription] = useState<string>('Game Over');
   const [succeeded, setSucceeded] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-
-  const mapState = useCallback(
-    ({ game: { level, loading } }: RootState) => ({ level, loading }),
-    [],
-  );
-  const mapDispatch = useCallback(
-    (dispatch: ThunkDispatch<RootState, {}, PayloadAction>) => ({
-      loadGame: (level?: number) => dispatch(loadGameAction(level)),
-      finishGame: () => dispatch(finishGameAction()),
-    }),
-    [],
-  );
-  const {
-    stateObject: { level, loading },
-    dispatchObject: { loadGame, finishGame },
-  } = useReduxStore(mapState, mapDispatch);
+  const { level, loading } = useShallowEqualSelector(selector);
+  const dispatch = useDispatch();
 
   const fetch = useCallback(
     async (level?: number) => {
